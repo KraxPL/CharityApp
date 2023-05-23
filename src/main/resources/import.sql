@@ -1,0 +1,1 @@
+INSERT INTO charity_donation.institutions (description, name) VALUES ('Pomoc dzieciom z ubogich rodzin.', 'Dbam o Zdrowie' ), ('Pomoc wybudzaniu dzieci ze śpiączki.', 'A kogo'), ('Pomoc osobom znajdującym się w trudnej sytuacji życiowej.', 'Dla dzieci'), ('Pomoc dla osób nie posiadających miejsca zamieszkania', 'Bez domu'), ('aaa', 'Fundacja jakoś');

@@ -11,4 +11,5 @@ public interface InstitutionService {
     List<Institution> findAll();
     Optional<Institution> findById(Long institutionId);
     void delete (Long institutionId);
+    List<Institution> evenList();
 }
