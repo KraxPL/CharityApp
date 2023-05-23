@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.krax.charity.service.DonationService;
 import pl.krax.charity.service.InstitutionService;
 
 
@@ -11,10 +12,12 @@ import pl.krax.charity.service.InstitutionService;
 @RequiredArgsConstructor
 public class HomeController {
     private final InstitutionService institutionService;
+    private final DonationService donationService;
 
     @RequestMapping("/")
     public String homeAction(Model model) {
         model.addAttribute("institutions", institutionService.evenList());
+        model.addAttribute("donatedBags", donationService.donatedBagsSoFar());
         return "/views/index";
     }
 }

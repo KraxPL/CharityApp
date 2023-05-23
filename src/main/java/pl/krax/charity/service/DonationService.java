@@ -11,4 +11,5 @@ public interface DonationService {
     List<Donation> findAll();
     Optional<Donation> findById(Long donationId);
     void delete (Long donationId);
+    Integer donatedBagsSoFar();
 }
