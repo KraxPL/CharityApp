@@ -42,4 +42,14 @@ public class DonationServiceImpl implements DonationService {
     public void delete(Long donationId) {
         findById(donationId).ifPresent(donationRepo::delete);
     }
+
+    @Override
+    public Integer donatedBagsSoFar() {
+        return donationRepo.countDonatedBags();
+    }
+
+    @Override
+    public Integer donationsSoFar() {
+        return donationRepo.countDonations();
+    }
 }
