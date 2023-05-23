@@ -1,4 +1,4 @@
-package pl.krax.charity;
+package pl.krax.charity.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
