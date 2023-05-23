@@ -8,8 +8,7 @@ spring:
         format_sql: true
   mvc:
     view:
-      prefix: /WEB-INF/views/
-      suffix: .jsp
+      suffix: .html
   web:
     locale: pl_PL
     locale-resolver: fixed
