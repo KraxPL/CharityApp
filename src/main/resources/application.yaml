@@ -1,0 +1,22 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  web:
+    locale: pl_PL
+    locale-resolver: fixed
+  profiles:
+    active: local
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.hibernate: ERROR
