@@ -47,4 +47,9 @@ public class DonationServiceImpl implements DonationService {
     public Integer donatedBagsSoFar() {
         return donationRepo.countDonatedBags();
     }
+
+    @Override
+    public Integer donationsSoFar() {
+        return donationRepo.countDonations();
+    }
 }

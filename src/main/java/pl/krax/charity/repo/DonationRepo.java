@@ -8,4 +8,6 @@ import pl.krax.charity.entities.Donation;
 public interface DonationRepo extends JpaRepository<Donation, Long> {
     @Query("SELECT sum(d.quantity) FROM Donation d")
     Integer countDonatedBags();
+    @Query("SELECT count(d) FROM Donation d")
+    Integer countDonations();
 }

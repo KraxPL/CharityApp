@@ -12,4 +12,5 @@ public interface DonationService {
     Optional<Donation> findById(Long donationId);
     void delete (Long donationId);
     Integer donatedBagsSoFar();
+    Integer donationsSoFar();
 }

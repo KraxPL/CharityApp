@@ -18,6 +18,7 @@ public class HomeController {
     public String homeAction(Model model) {
         model.addAttribute("institutions", institutionService.evenList());
         model.addAttribute("donatedBags", donationService.donatedBagsSoFar());
+        model.addAttribute("donationsCount", donationService.donationsSoFar());
         return "/views/index";
     }
 }
