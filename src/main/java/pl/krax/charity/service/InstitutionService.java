@@ -9,6 +9,6 @@ public interface InstitutionService {
     void create(Institution institution);
     void update(Institution institution);
     List<Institution> findAll();
-    Optional<Institution> findById(Long categoryId);
-    void delete (Long categoryId);
+    Optional<Institution> findById(Long institutionId);
+    void delete (Long institutionId);
 }
