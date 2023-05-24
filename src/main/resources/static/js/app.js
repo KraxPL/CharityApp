@@ -174,15 +174,15 @@ document.addEventListener("DOMContentLoaded", function() {
       const summaryPickUpComment = document.getElementById('summaryPickUpComment');
 
       const quantity = document.getElementById("quantity").value;
-      const institutionId = document.getElementById("organizationId").value;
+      const institutionId = document.querySelector('input#organizationId:checked');
+      const institutionName = institutionId.parentElement.querySelector("div.title").textContent.trim().substring(10);
       const address = document.getElementById("address").value;
       const postCode = document.getElementById("postcode").value;
       const city = document.getElementById("city").value;
       const phone = document.getElementById("phone").value;
       const date = document.getElementById("data").value;
       const time = document.getElementById("time").value;
-      const pickUpComment = document.getElementById("more_info").value;
-
+      const pickUpComment = document.getElementById("more_info").value || "Brak uwag";
       const checkboxes = document.querySelectorAll('.form-group--checkbox input[type="checkbox"]:checked');
       const categoryNames = Array.from(checkboxes).map(checkbox => checkbox.parentElement.querySelector('.categoryName').innerText);
 
@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function() {
       items.appendChild(summaryItem);
 
 
-      // summaryItems.innerHTML += `<li><span class="icon icon-hand"></span><span class="summary--text">Dla fundacji "${institution}" w Warszawie</span></li>`;
+      summaryItems.innerHTML += `<li><span class="icon icon-hand"></span><span class="summary--text">Dla fundacji "${institutionName}"</span></li>`;
       summaryStreet.textContent = address;
       summaryCity.textContent = city;
       summaryZipCode.textContent = postCode;
@@ -205,8 +205,6 @@ document.addEventListener("DOMContentLoaded", function() {
       summaryPickUpDate.textContent = date;
       summaryPickUpTime.textContent = time;
       summaryPickUpComment.textContent = pickUpComment;
-
-      // TODO: get data from inputs and show them in summary
 
     }
 
