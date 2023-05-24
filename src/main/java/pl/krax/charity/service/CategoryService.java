@@ -11,4 +11,5 @@ public interface CategoryService {
     List<Category> findAll();
     Optional<Category> findById(Long categoryId);
     void delete (Long categoryId);
+    List<Category> findAllByIds(List<Long> categoriesIds);
 }

@@ -9,6 +9,7 @@ import pl.krax.charity.service.CategoryService;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,5 +44,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public void delete(Long categoryId) {
         findById(categoryId).ifPresent(categoryRepo::delete);
+    }
+
+    @Override
+    @Transactional
+    public List<Category> findAllByIds(List<Long> categoriesIds) {
+        return categoriesIds.stream()
+                .map(this::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
 }
