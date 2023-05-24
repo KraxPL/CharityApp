@@ -1,34 +1,22 @@
-package pl.krax.charity.entities;
+package pl.krax.charity.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-
-@Entity
-@Table(name = "donations")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Donation {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class DonationDto {
     private Long id;
     private Integer quantity;
-    @ManyToMany
-    @JoinTable(
-            name = "donation_category",
-            joinColumns = @JoinColumn(name = "donation_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    private List<Category> categories;
-    @ManyToOne
-    private Institution institution;
+    private List<Long> categoriesIdsList;
+    private Long institutionId;
     private String street;
     private String city;
     private String zipCode;

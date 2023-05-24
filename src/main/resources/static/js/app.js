@@ -163,7 +163,49 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 5;
       this.$step.parentElement.hidden = this.currentStep >= 5;
 
-      // TODO: get data from inputs and show them in summary
+
+      const summaryItems = document.getElementById('summaryItems');
+      const summaryStreet = document.getElementById('summaryStreet');
+      const summaryCity = document.getElementById('summaryCity');
+      const summaryZipCode = document.getElementById('summaryZipCode');
+      const summaryPhone = document.getElementById('summaryPhone');
+      const summaryPickUpDate = document.getElementById('summaryPickUpDate');
+      const summaryPickUpTime = document.getElementById('summaryPickUpTime');
+      const summaryPickUpComment = document.getElementById('summaryPickUpComment');
+
+      const quantity = document.getElementById("quantity").value;
+      const institutionId = document.querySelector('input#organizationId:checked');
+      const institutionName = institutionId.parentElement.querySelector("div.title").textContent.trim().substring(10);
+      const address = document.getElementById("address").value;
+      const postCode = document.getElementById("postcode").value;
+      const city = document.getElementById("city").value;
+      const phone = document.getElementById("phone").value;
+      const date = document.getElementById("data").value;
+      const time = document.getElementById("time").value;
+      const pickUpComment = document.getElementById("more_info").value || "Brak uwag";
+      const checkboxes = document.querySelectorAll('.form-group--checkbox input[type="checkbox"]:checked');
+      const categoryNames = Array.from(checkboxes).map(checkbox => checkbox.parentElement.querySelector('.categoryName').innerText);
+
+      const items = document.querySelector('.summary ul');
+      items.innerHTML = '';
+
+      const summaryItem = document.createElement('li');
+      const categoriesText = categoryNames.length === 1 ? 'w kategorii' : 'w kategoriach';
+      const nounSuffix = quantity === '1' ? 'worek' : (quantity > '1' && quantity < '5') ? 'worki' : 'worków';
+
+      summaryItem.innerHTML = `<span class="icon icon-bag"></span><span class="summary--text">${quantity} ${nounSuffix} ${categoriesText}: ${categoryNames.join(', ')}</span>`;
+      items.appendChild(summaryItem);
+
+
+      summaryItems.innerHTML += `<li><span class="icon icon-hand"></span><span class="summary--text">Dla fundacji "${institutionName}"</span></li>`;
+      summaryStreet.textContent = address;
+      summaryCity.textContent = city;
+      summaryZipCode.textContent = postCode;
+      summaryPhone.textContent = phone;
+      summaryPickUpDate.textContent = date;
+      summaryPickUpTime.textContent = time;
+      summaryPickUpComment.textContent = pickUpComment;
+
     }
 
   }

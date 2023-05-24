@@ -2,8 +2,11 @@ package pl.krax.charity.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.krax.charity.dto.DonationDto;
 import pl.krax.charity.entities.Donation;
+import pl.krax.charity.mapper.DonationMapper;
 import pl.krax.charity.repo.DonationRepo;
+import pl.krax.charity.service.CategoryService;
 import pl.krax.charity.service.DonationService;
 
 import javax.transaction.Transactional;
@@ -13,9 +16,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DonationServiceImpl implements DonationService {
     private final DonationRepo donationRepo;
+    private final CategoryService categoryService;
     @Override
     @Transactional
-    public void create(Donation donation) {
+    public void create(DonationDto donationDto) {
+        Donation donation = DonationMapper.INSTANCE.toEntity(donationDto, categoryService);
         donationRepo.save(donation);
     }
 
