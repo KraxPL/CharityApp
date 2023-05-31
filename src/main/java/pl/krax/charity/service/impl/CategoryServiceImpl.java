@@ -6,7 +6,7 @@ import pl.krax.charity.entities.Category;
 import pl.krax.charity.repo.CategoryRepo;
 import pl.krax.charity.service.CategoryService;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

@@ -9,7 +9,7 @@ import pl.krax.charity.repo.DonationRepo;
 import pl.krax.charity.service.CategoryService;
 import pl.krax.charity.service.DonationService;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 @Service

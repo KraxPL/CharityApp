@@ -6,9 +6,8 @@ import pl.krax.charity.entities.Institution;
 import pl.krax.charity.repo.InstitutionRepo;
 import pl.krax.charity.service.InstitutionService;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
