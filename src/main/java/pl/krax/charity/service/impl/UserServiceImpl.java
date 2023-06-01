@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.krax.charity.dto.UserDto;
 import pl.krax.charity.dto.UserRegisterDto;
 import pl.krax.charity.entities.User;
 import pl.krax.charity.mapper.UserMapper;
@@ -41,13 +42,52 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void update(User user) {
-        userRepo.save(user);
+    public void update(UserDto userDto) {
+        User existingUser = userRepo.findById(userDto.getId())
+                .orElse(null);
+        if (existingUser != null) {
+            User user = userMapper.toEntity(userDto);
+            user.setRoles(existingUser.getRoles());
+            user.setActiveAccount(existingUser.getActiveAccount());
+            user.setId(existingUser.getId());
+            user.setPassword(existingUser.getPassword());
+            userRepo.save(user);
+        }
     }
 
     @Override
     @Transactional
     public User findByUserEmail(String email) {
         return userRepo.findByEmail(email);
+    }
+
+    @Override
+    public UserDto findUserDtoByUserEmail(String email) {
+        return userMapper.toDto(
+                userRepo.findByEmail(email));
+    }
+    @Override
+    public boolean checkPasswordAndCurrentPassword(String newPassword, String confirmPassword, String currentPassword, Long userId) {
+        return checkPasswordRepeat(newPassword, confirmPassword) &&
+                checkCurrentPassword(currentPassword, userId);
+    }
+
+    @Override
+    public void changePassword(String newPassword, Long userId) {
+        userRepo.findById(userId).ifPresent(user -> {
+            user.setPassword(
+                    passwordEncoder.encode(newPassword));
+            userRepo.save(user);
+        });
+    }
+
+    private boolean checkCurrentPassword(String currentPassword, Long userId) {
+        return userRepo.findById(userId)
+                .map(user -> passwordEncoder.matches(currentPassword, user.getPassword()))
+                .orElse(false);
+    }
+
+    private boolean checkPasswordRepeat(String newPassword, String confirmPassword) {
+        return newPassword.equals(confirmPassword);
     }
 }

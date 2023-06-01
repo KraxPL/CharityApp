@@ -23,6 +23,7 @@ public interface UserMapper {
     @Mapping(target = "password", ignore = true)
     User toEntity(UserDto userDto);
 
+    @Mapping(target = "email", source = "email")
     UserDto toDto(User user);
 
     @Mapping(target = "id", ignore = true)
@@ -42,7 +43,8 @@ public interface UserMapper {
         }
         return defaultRoles;
     }
-    default String hashPassword(BCryptPasswordEncoder passwordEncoder, UserRegisterDto userRegisterDto){
+
+    default String hashPassword(BCryptPasswordEncoder passwordEncoder, UserRegisterDto userRegisterDto) {
         return passwordEncoder.encode(userRegisterDto.getPassword());
     }
 }
