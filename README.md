@@ -71,8 +71,6 @@ To log in as a regular user, use the following credentials:
 
 Technologies Used:
 
-The advanced version of the project will continue to leverage the following technologies:
-
     Java
     Spring Boot
     Spring MVC
