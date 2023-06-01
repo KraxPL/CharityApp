@@ -7,9 +7,9 @@
             </th:block>
             <th:block th:if="${#authorization.expression('isAuthenticated()')}">
                 <li>Hello, <span th:text="${#authentication.principal.user.name}"></span></li>
-                <li><form th:action="@{/logout}" method="post" class="btn btn--small btn--without-border">
+                <li><form th:action="@{/logout}" method="post">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                    <button type="submit">Wyloguj</button>
+                    <button type="submit" class="btn btn--small btn--without-border">Wyloguj</button>
                 </form>
                 </li>
             </th:block>
