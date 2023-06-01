@@ -1,5 +1,6 @@
 package pl.krax.charity.entities;
 
+import jakarta.validation.constraints.FutureOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,7 @@ public class Donation {
     private String zipCode;
     private String phone;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @FutureOrPresent
     private LocalDate pickUpDate;
     private LocalTime pickUpTime;
     private String pickUpComment;
