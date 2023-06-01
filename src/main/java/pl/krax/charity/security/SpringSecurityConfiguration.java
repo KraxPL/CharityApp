@@ -45,7 +45,8 @@ public class SpringSecurityConfiguration {
                                 .loginPage("/login")
                                 .usernameParameter("email")
                                 .permitAll())
-                .authenticationProvider(authenticationProvider());
+                .logout().logoutSuccessUrl("/")
+                .and().authenticationProvider(authenticationProvider());
         return httpSecurity.build();
     }
 }

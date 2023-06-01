@@ -1,8 +1,18 @@
 <header class="header--main-page">
     <nav class="container container--70">
         <ul class="nav--actions">
-            <li><a th:href="@{/login}" class="btn btn--small btn--without-border">Zaloguj</a></li>
-            <li><a th:href="@{/register}" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+            <th:block th:if="${not #authorization.expression('isAuthenticated()')}">
+                <li><a th:href="@{/login}" class="btn btn--small btn--without-border">Zaloguj</a></li>
+                <li><a th:href="@{/register}" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+            </th:block>
+            <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+                <li>Hello, <span th:text="${#authentication.principal.user.name}"></span></li>
+                <li><form th:action="@{/logout}" method="post" class="btn btn--small btn--without-border">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <button type="submit">Wyloguj</button>
+                </form>
+                </li>
+            </th:block>
         </ul>
 
         <ul>
