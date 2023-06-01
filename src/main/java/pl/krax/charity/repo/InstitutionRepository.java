@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import pl.krax.charity.entities.Institution;
 
 @Repository
-public interface InstitutionRepo extends JpaRepository<Institution, Long> {
+public interface InstitutionRepository extends JpaRepository<Institution, Long> {
 }

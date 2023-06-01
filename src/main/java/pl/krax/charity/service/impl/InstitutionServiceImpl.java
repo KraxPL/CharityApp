@@ -3,7 +3,7 @@ package pl.krax.charity.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.krax.charity.entities.Institution;
-import pl.krax.charity.repo.InstitutionRepo;
+import pl.krax.charity.repo.InstitutionRepository;
 import pl.krax.charity.service.InstitutionService;
 
 import jakarta.transaction.Transactional;
@@ -12,7 +12,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class InstitutionServiceImpl implements InstitutionService {
-    private final InstitutionRepo institutionRepo;
+    private final InstitutionRepository institutionRepo;
     @Override
     @Transactional
     public void create(Institution institution) {

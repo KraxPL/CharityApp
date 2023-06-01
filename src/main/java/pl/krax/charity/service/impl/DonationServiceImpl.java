@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.krax.charity.dto.DonationDto;
 import pl.krax.charity.entities.Donation;
 import pl.krax.charity.mapper.DonationMapper;
-import pl.krax.charity.repo.DonationRepo;
+import pl.krax.charity.repo.DonationRepository;
 import pl.krax.charity.service.CategoryService;
 import pl.krax.charity.service.DonationService;
 
@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class DonationServiceImpl implements DonationService {
-    private final DonationRepo donationRepo;
+    private final DonationRepository donationRepo;
     private final CategoryService categoryService;
     @Override
     @Transactional
