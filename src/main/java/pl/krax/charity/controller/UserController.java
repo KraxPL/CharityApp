@@ -54,4 +54,8 @@ public class UserController {
         }
         return "redirect:/profile";
     }
+    @GetMapping("/adminProfile")
+    public String adminPage(){
+        return "/views/adminPanel";
+    }
 }
