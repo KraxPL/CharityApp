@@ -9,6 +9,9 @@ spring:
   mvc:
     view:
       suffix: .html
+    hidden-method:
+      filter:
+        enabled: true
   web:
     locale: pl_PL
     locale-resolver: fixed

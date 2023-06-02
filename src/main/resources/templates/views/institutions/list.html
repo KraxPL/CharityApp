@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Institutions</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header th:replace="views/fragments/header :: header"></header>
+
+<h2>Add New Institution</h2>
+<form th:action="@{/manage/institutions}" method="post">
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" required minlength="3" maxlength="30" />
+  <label for="description">Description:</label>
+  <textarea id="description" name="description"></textarea>
+  <button type="submit">Add Institution</button>
+</form>
+
+<h2>List of Institutions</h2>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th></th>
+  </tr>
+  <tr th:each="institution : ${institutions}">
+    <td th:text="${institution.name}"></td>
+    <td th:text="${institution.description}"></td>
+    <td>
+      <a th:href="@{'/manage/institutions/' + ${institution.id}}">Edit</a>
+      <form th:action="@{'/manage/institutions/' + ${institution.id}}" method="post">
+      <input type="hidden" name="_method" value="DELETE" />
+        <button type="submit">Delete</button>
+      </form>
+    </td>
+  </tr>
+</table>
+
+<footer th:replace="views/fragments/footer :: footer"></footer>
+</body>
+</html>
