@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.krax.charity.dto.UserDto;
 import pl.krax.charity.service.UserService;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/manage/admins")
 @RequiredArgsConstructor
@@ -19,7 +21,12 @@ public class AdminController {
         return "views/admins/list";
     }
     @DeleteMapping("/{id}")
-    public String deleteAdmin(@PathVariable Long id) {
+    public String deleteAdmin(@PathVariable Long id, Principal principal) {
+        String authenticatedEmail = principal.getName();
+        UserDto authenticatedUser = userService.findUserDtoByUserEmail(authenticatedEmail);
+        if (authenticatedUser.getId().equals(id)) {
+            return "redirect:/manage/admins?error=selfDeletion";
+        }
         boolean isDeleted = userService.delete(id);
         if (!isDeleted) {
             return "redirect:/manage/admins?error=lastAdmin";
