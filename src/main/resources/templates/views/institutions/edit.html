@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Institutions</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header th:replace="views/fragments/header :: header"></header>
+
+<h2>Edit Institution</h2>
+<form th:action="@{'/manage/institutions/' + ${institution.id}}" method="post">
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" th:value="${institution.name}" required minlength="3" maxlength="30" />
+  <label for="description">Description:</label>
+  <input id="description" name="description" th:value="${institution.description}"/>
+  <input id="id" name="id" type="hidden" th:value="${institution.id}">
+  <button type="submit">Edit Institution</button>
+</form>
+
+<footer th:replace="views/fragments/footer :: footer"></footer>
+</body>
+</html>
