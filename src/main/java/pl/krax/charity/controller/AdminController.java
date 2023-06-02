@@ -26,7 +26,7 @@ public class AdminController {
         }
         return "redirect:/manage/admins";
     }
-    @PostMapping("")
+    @PostMapping
     public String addAdmin(@ModelAttribute UserDto userDto) {
         userService.createAdmin(userDto);
         return "redirect:/manage/admins";

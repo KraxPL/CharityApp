@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     public static final String DEFAULT_PASSWORD = "password";
     public static final String ADMIN_ROLE = "ROLE_ADMIN";
+    public static final String USER_ROLE = "ROLE_USER";
     private final UserRepository userRepo;
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
@@ -103,13 +104,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void createAdmin(UserDto userDto) {
-        User user = UserMapper.INSTANCE.toEntity(userDto);
-        user.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
-        user.setActiveAccount(1);
-        Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findByRoleName(ADMIN_ROLE));
-        user.setRoles(roles);
-        userRepo.save(user);
+        createUserOrAdmin(userDto, true);
     }
 
     @Override
@@ -117,6 +112,35 @@ public class UserServiceImpl implements UserService {
     public UserDto findUserDtoById(Long id) {
         return findById(id).map(userMapper::toDto)
                 .orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public void createUser(UserDto userDto) {
+        createUserOrAdmin(userDto, false);
+    }
+
+    @Override
+    @Transactional
+    public void createUserOrAdmin(UserDto userDto, boolean isAdmin) {
+        User user = UserMapper.INSTANCE.toEntity(userDto);
+        user.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
+        user.setActiveAccount(isAdmin ? 1 : 0);
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleRepository.findByRoleName(isAdmin ? ADMIN_ROLE : USER_ROLE));
+        user.setRoles(roles);
+        userRepo.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void lockOrUnlockUser(Long userId) {
+        Optional<User> userOptional = findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setActiveAccount(user.getActiveAccount() == 1 ? 0 : 1);
+            userRepo.save(user);
+        }
     }
 
     @Override

@@ -22,4 +22,7 @@ public interface UserService {
     long countAdmins();
     void createAdmin(UserDto userDto);
     UserDto findUserDtoById(Long id);
+    void createUser(UserDto userDto);
+    void createUserOrAdmin(UserDto userDto, boolean isAdmin);
+    void lockOrUnlockUser(Long userId);
 }
