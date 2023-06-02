@@ -6,18 +6,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.krax.charity.dto.UserDto;
 import pl.krax.charity.dto.UserRegisterDto;
+import pl.krax.charity.entities.Role;
 import pl.krax.charity.entities.User;
 import pl.krax.charity.mapper.UserMapper;
 import pl.krax.charity.repo.RoleRepository;
 import pl.krax.charity.repo.UserRepository;
 import pl.krax.charity.service.UserService;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    public static final String DEFAULT_PASSWORD = "password";
+    public static final String ADMIN_ROLE = "ROLE_ADMIN";
     private final UserRepository userRepo;
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
@@ -67,10 +73,57 @@ public class UserServiceImpl implements UserService {
                 userRepo.findByEmail(email));
     }
     @Override
-    public boolean checkPasswordAndCurrentPassword(String newPassword, String confirmPassword, String currentPassword, Long userId) {
+    public boolean checkPasswordAndCurrentPassword(String newPassword, String confirmPassword,
+                                                   String currentPassword, Long userId) {
         return checkPasswordRepeat(newPassword, confirmPassword) &&
                 checkCurrentPassword(currentPassword, userId);
     }
+
+    @Override
+    @Transactional
+    public List<UserDto> findAllAdmins() {
+        return userRepo.findAll().stream()
+                .filter(this::isAdmin)
+                .map(userMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public boolean delete(Long userId) {
+        return findById(userId)
+                .filter(user -> isAdmin(user) && countAdmins() > 1 || !isAdmin(user))
+                .map(user -> {
+                    userRepo.delete(user);
+                    return true;
+                })
+                .orElse(false);
+    }
+
+    @Override
+    @Transactional
+    public void createAdmin(UserDto userDto) {
+        User user = UserMapper.INSTANCE.toEntity(userDto);
+        user.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
+        user.setActiveAccount(1);
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleRepository.findByRoleName(ADMIN_ROLE));
+        user.setRoles(roles);
+        userRepo.save(user);
+    }
+
+    @Override
+    @Transactional
+    public UserDto findUserDtoById(Long id) {
+        return findById(id).map(userMapper::toDto)
+                .orElse(null);
+    }
+
+    @Override
+    public long countAdmins() {
+        return userRepo.countByRoleAdmin();
+    }
+
 
     @Override
     public void changePassword(String newPassword, Long userId) {
@@ -79,6 +132,10 @@ public class UserServiceImpl implements UserService {
                     passwordEncoder.encode(newPassword));
             userRepo.save(user);
         });
+    }
+    private boolean isAdmin(User user) {
+        return user.getRoles().stream()
+                .anyMatch(role -> role.getName().equals(ADMIN_ROLE));
     }
 
     private boolean checkCurrentPassword(String currentPassword, Long userId) {

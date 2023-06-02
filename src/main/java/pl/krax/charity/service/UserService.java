@@ -17,4 +17,9 @@ public interface UserService {
     UserDto findUserDtoByUserEmail(String email);
     boolean checkPasswordAndCurrentPassword(String newPassword, String confirmPassword, String currentPassword, Long userId);
     void changePassword(String newPassword, Long userId);
+    List<UserDto> findAllAdmins();
+    boolean delete(Long userId);
+    long countAdmins();
+    void createAdmin(UserDto userDto);
+    UserDto findUserDtoById(Long id);
 }
