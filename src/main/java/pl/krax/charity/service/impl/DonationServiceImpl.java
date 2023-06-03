@@ -1,6 +1,7 @@
 package pl.krax.charity.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.krax.charity.dto.DonationDto;
 import pl.krax.charity.entities.Donation;
@@ -74,7 +75,12 @@ public class DonationServiceImpl implements DonationService {
 
     @Override
     public List<Donation> donationsByUserId(Long userId) {
-        return donationRepo.findAllDonationsByUserId(userId);
+        Sort.Order statusOrder = Sort.Order.asc("status");
+        Sort.Order pickUpDateOrder = Sort.Order.asc("pickUpDate");
+        Sort.Order creationDateOrder = Sort.Order.asc("statusChangeDate");
+
+        Sort sort = Sort.by(statusOrder, pickUpDateOrder, creationDateOrder);
+        return donationRepo.findAllDonationsByUserId(userId, sort);
     }
 
     @Override

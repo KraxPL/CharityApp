@@ -1,5 +1,6 @@
 package pl.krax.charity.repository;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,5 +16,5 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
     @Query("SELECT count(d) FROM Donation d")
     Integer countDonations();
     @EntityGraph(attributePaths = {"institution"})
-    List<Donation> findAllDonationsByUserId(Long userId);
+    List<Donation> findAllDonationsByUserId(Long userId, Sort sort);
 }
