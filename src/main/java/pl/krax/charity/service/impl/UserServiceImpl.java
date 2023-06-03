@@ -11,7 +11,9 @@ import pl.krax.charity.entities.User;
 import pl.krax.charity.mapper.UserMapper;
 import pl.krax.charity.repository.RoleRepository;
 import pl.krax.charity.repository.UserRepository;
+import pl.krax.charity.service.MailSenderService;
 import pl.krax.charity.service.UserService;
+import pl.krax.charity.token.TokenGenerator;
 
 import java.util.HashSet;
 import java.util.List;
@@ -22,17 +24,23 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    public static final String DEFAULT_PASSWORD = "password";
-    public static final String ADMIN_ROLE = "ROLE_ADMIN";
-    public static final String USER_ROLE = "ROLE_USER";
+    private static final String DEFAULT_PASSWORD = "password";
+    private static final String ADMIN_ROLE = "ROLE_ADMIN";
+    private static final String USER_ROLE = "ROLE_USER";
     private final UserRepository userRepo;
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final MailSenderService mailSenderService;
+    private final TokenGenerator tokenGenerator;
     @Override
     @Transactional
     public void save(UserRegisterDto userRegisterDto) {
-        userRepo.save(userMapper.toUser(userRegisterDto, roleRepository, passwordEncoder));
+        User user = userMapper.toUser(userRegisterDto, roleRepository, passwordEncoder);
+        String token = tokenGenerator.generateToken();
+        user.setActivationToken(token);
+        userRepo.save(user);
+        sendConfirmationEmail(userRegisterDto, token);
     }
 
     @Override
@@ -144,6 +152,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
+    public void activateUserAccount(String email, String token) {
+        userRepo.findByActivationToken(token)
+                .filter(user -> user.getEmail().equals(email))
+                .ifPresent(user -> {
+                    user.setActiveAccount(1);
+                    user.setActivationToken("");
+                    userRepo.save(user);
+                });
+    }
+
+    @Override
     public long countAdmins() {
         return userRepo.countByRoleAdmin();
     }
@@ -156,6 +176,9 @@ public class UserServiceImpl implements UserService {
                     passwordEncoder.encode(newPassword));
             userRepo.save(user);
         });
+    }
+    private void sendConfirmationEmail(UserRegisterDto userRegisterDto, String token) {
+        mailSenderService.confirmAccountCreationMail(userRegisterDto.getEmail(), token);
     }
     private boolean isAdmin(User user) {
         return user.getRoles().stream()

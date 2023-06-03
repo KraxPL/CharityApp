@@ -25,4 +25,5 @@ public interface UserService {
     void createUser(UserDto userDto);
     void createUserOrAdmin(UserDto userDto, boolean isAdmin);
     void lockOrUnlockUser(Long userId);
+    void activateUserAccount(String email, String token);
 }
