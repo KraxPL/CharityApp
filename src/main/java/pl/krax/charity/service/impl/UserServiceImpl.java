@@ -9,8 +9,8 @@ import pl.krax.charity.dto.UserRegisterDto;
 import pl.krax.charity.entities.Role;
 import pl.krax.charity.entities.User;
 import pl.krax.charity.mapper.UserMapper;
-import pl.krax.charity.repo.RoleRepository;
-import pl.krax.charity.repo.UserRepository;
+import pl.krax.charity.repository.RoleRepository;
+import pl.krax.charity.repository.UserRepository;
 import pl.krax.charity.service.UserService;
 
 import java.util.HashSet;

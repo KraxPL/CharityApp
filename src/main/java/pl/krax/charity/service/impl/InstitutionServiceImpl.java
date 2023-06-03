@@ -3,7 +3,7 @@ package pl.krax.charity.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.krax.charity.entities.Institution;
-import pl.krax.charity.repo.InstitutionRepository;
+import pl.krax.charity.repository.InstitutionRepository;
 import pl.krax.charity.service.InstitutionService;
 
 import jakarta.transaction.Transactional;

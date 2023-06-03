@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.krax.charity.dto.DonationDto;
 import pl.krax.charity.entities.Donation;
 import pl.krax.charity.mapper.DonationMapper;
-import pl.krax.charity.repo.DonationRepository;
+import pl.krax.charity.repository.DonationRepository;
 import pl.krax.charity.service.CategoryService;
 import pl.krax.charity.service.DonationService;
 
