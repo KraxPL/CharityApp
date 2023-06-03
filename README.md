@@ -60,12 +60,12 @@ To log in to the CharityApp web application, you can go to the following address
 
 To log in as an admin, use the following credentials:
 
-    Email: admin@vetclinic.pl
+    Email: admin@charityApp.pl
     Password: password
 
 To log in as a regular user, use the following credentials:
 
-    Email: user@vetclinic.pl
+    Email: user@charityApp.pl
     Password: password
 
 
