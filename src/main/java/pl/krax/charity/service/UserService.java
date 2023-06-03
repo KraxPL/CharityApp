@@ -26,4 +26,7 @@ public interface UserService {
     void createUserOrAdmin(UserDto userDto, boolean isAdmin);
     void lockOrUnlockUser(Long userId);
     void activateUserAccount(String email, String token);
+    boolean sendMailWithPasswordChange(String email);
+    boolean changeForgottenPassword(String email, String token, String newPassword, String repeatedPassword);
+    boolean checkTokenAndEmailMatch(String token, String email);
 }

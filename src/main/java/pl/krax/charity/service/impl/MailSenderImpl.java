@@ -40,4 +40,19 @@ public class MailSenderImpl implements MailSenderService {
                 + "The CharityApp Team");
         mailSender.send(message);
     }
+
+    @Override
+    public void passwordChangeMail(String email, String token) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(MAIL_SENDING_MESSAGES);
+        message.setTo(email);
+        message.setSubject("CharityApp - forgotten password");
+        message.setText("Hello!\n\n"
+                + "This is a message just for you. "
+                + "localhost:8080/password?token=" + token + "&email=" + email
+                + " Please click on this link to change your password account!\n\n"
+                + "Best regards,\n"
+                + "The CharityApp Team");
+        mailSender.send(message);
+    }
 }

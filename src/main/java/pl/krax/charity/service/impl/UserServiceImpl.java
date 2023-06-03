@@ -164,6 +164,39 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean sendMailWithPasswordChange(String email) {
+        User user = findByUserEmail(email);
+        if (user != null){
+            String token = tokenGenerator.generateToken();
+            user.setActivationToken(token);
+            mailSenderService.passwordChangeMail(email, token);
+            userRepo.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    @Transactional
+    public boolean changeForgottenPassword(String email, String token, String newPassword, String repeatedPassword) {
+        User user = findByUserEmail(email);
+        if (user != null && user.getActivationToken().equals(token) && checkPasswordRepeat(newPassword, repeatedPassword)) {
+            changePassword(newPassword, user.getId());
+            user.setActivationToken("");
+            userRepo.save(user);
+            return true;
+        }
+        return false;
+    }
+
+
+    @Override
+    public boolean checkTokenAndEmailMatch(String token, String email) {
+        User user = userRepo.findByEmail(email);
+        return user.getActivationToken().equals(token);
+    }
+
+    @Override
     public long countAdmins() {
         return userRepo.countByRoleAdmin();
     }
