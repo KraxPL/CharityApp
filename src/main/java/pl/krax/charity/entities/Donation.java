@@ -4,9 +4,12 @@ import jakarta.validation.constraints.FutureOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.*;
+import pl.krax.charity.enums.Status;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -39,4 +42,10 @@ public class Donation {
     private LocalDate pickUpDate;
     private LocalTime pickUpTime;
     private String pickUpComment;
+    @Enumerated(EnumType.STRING)
+    private Status status;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    private LocalDate statusChangeDate;
 }

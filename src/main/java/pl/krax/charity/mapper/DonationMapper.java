@@ -8,8 +8,6 @@ import pl.krax.charity.entities.Donation;
 import pl.krax.charity.service.CategoryService;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = {CategoryService.class})
 public interface DonationMapper {
@@ -18,6 +16,7 @@ public interface DonationMapper {
 
     @Mapping(source = "institutionId", target = "institution.id")
     @Mapping(target = "categories", expression = "java(mapCategoryIdsListToCategories(donationDto.getCategoriesIdsList(), categoryService))")
+    @Mapping(source = "userId", target = "user.id")
     Donation toEntity(DonationDto donationDto, @Context CategoryService categoryService);
 
     default List<Category> mapCategoryIdsListToCategories(List<Long> categoriesIdsList, CategoryService categoryService) {
