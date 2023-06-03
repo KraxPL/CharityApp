@@ -14,4 +14,7 @@ public interface DonationService {
     void delete (Long donationId);
     Integer donatedBagsSoFar();
     Integer donationsSoFar();
+    void itemsCollected(Long donationId);
+    List<Donation> donationsByUserId(Long userId);
+    boolean checkDonationIdAndUserIdMatch(Long donationId, Long userId);
 }

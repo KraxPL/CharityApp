@@ -1,4 +1,4 @@
-package pl.krax.charity.repo;
+package pl.krax.charity.repository;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;

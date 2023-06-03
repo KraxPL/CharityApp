@@ -25,4 +25,5 @@ public class DonationDto {
     private LocalDate pickUpDate;
     private LocalTime pickUpTime;
     private String pickUpComment;
+    private Long userId;
 }

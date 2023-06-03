@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>User's Donations List</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header th:replace="views/fragments/header :: header"></header>
+
+
+<h2>List of Donations so far</h2>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr th:each="donation : ${donations}">
+        <td th:text="${donation.institution.name}"></td>
+        <td th:text="${donation.institution.description}"></td>
+        <td>
+            <span th:text="${donation.status}"></span>
+        </td>
+        <td>
+            <div th:if="${donation.status == T(pl.krax.charity.enums.Status).PENDING}">
+                <form th:action="@{'/userDonations/' + ${donation.id} + '/status'}" method="post">
+                    <button type="submit">Oznacz jako odebrane</button>
+                </form>
+            </div>
+            <div th:if="${donation.status == T(pl.krax.charity.enums.Status).COLLECTED}">
+                Odebrano <span th:text="${donation.statusChangeDate}"></span>
+            </div>
+        </td>
+        <td>
+            <a th:href="@{'/userDonations/' + ${donation.id}}">Szczegóły</a>
+        </td>
+    </tr>
+</table>
+
+
+<footer th:replace="views/fragments/footer :: footer"></footer>
+</body>
+</html>
