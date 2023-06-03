@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -26,4 +27,5 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     @NotEmpty
     private Set<Role> roles;
+    private String activationToken;
 }
