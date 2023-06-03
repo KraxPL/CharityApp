@@ -36,7 +36,7 @@ public class DonationController {
     @PostMapping("/donation")
     public String donationCreate(@ModelAttribute("donationDto") DonationDto donationDto) {
         donationService.create(donationDto);
-        return "redirect:/";
+        return "redirect:/userDonations";
     }
 
     @GetMapping("/userDonations")
