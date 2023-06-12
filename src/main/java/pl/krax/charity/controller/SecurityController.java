@@ -23,12 +23,12 @@ public class SecurityController {
     }
     @GetMapping("/login")
     public String loginForm(){
-        return "/views/login";
+        return "views/login";
     }
     @GetMapping("/register")
     public String registerForm(Model model){
         model.addAttribute("userRegisterDto", new UserRegisterDto());
-        return "/views/register";
+        return "views/register";
     }
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@Valid @ModelAttribute UserRegisterDto userRegisterDto, BindingResult bindingResult) {
