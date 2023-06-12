@@ -30,7 +30,7 @@ public class DonationController {
     @GetMapping("/donation")
     public String donationCreateForm(Model model) {
         model.addAttribute("donationDto", new DonationDto());
-        return "/views/form";
+        return "views/form";
     }
 
     @PostMapping("/donation")
